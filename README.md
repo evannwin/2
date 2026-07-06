@@ -1,15 +1,15 @@
-# Somora — Shopify Theme
+# SomNexra — Shopify Theme
 
 A custom Online Store 2.0 theme built for a single hero product (26W brushless neck & shoulder massager, $75.99) sold to cold Meta/Facebook ad traffic. Mobile-first, conversion-focused, calm wellness aesthetic.
 
-"Somora" is a placeholder brand name — every place it appears is an editable theme setting or section default, so you can rename it entirely from the theme editor.
+Every place the brand name appears in storefront copy is an editable theme setting or section default, so wording can be adjusted entirely from the theme editor.
 
 ## Install
 
 **Option A — Zip upload (fastest):**
 
 ```bash
-zip -r somora-theme.zip assets config layout locales sections snippets templates
+zip -r somnexra-theme.zip assets config layout locales sections snippets templates
 ```
 
 Then in Shopify admin: **Online Store → Themes → Add theme → Upload zip file.**

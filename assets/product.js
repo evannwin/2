@@ -1,4 +1,4 @@
-/* Somora — product.js
+/* SomNexra — product.js
    Loaded only on the product page (from the main-product section).
    Variant picker, price/stock updates, gallery, lightbox. */
 (function () {

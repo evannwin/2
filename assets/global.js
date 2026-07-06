@@ -1,4 +1,4 @@
-/* Somora — global.js
+/* SomNexra — global.js
    Cart drawer, AJAX add-to-cart, quantity steppers, sticky bars.
    Vanilla JS, no dependencies. */
 (function () {
