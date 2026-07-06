@@ -1,0 +1,82 @@
+<section class="scheme-{{ section.settings.scheme }} section-pad">
+  <div class="page-width">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="eyebrow" style="margin-bottom: 2.5rem;">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    <div class="value-props__grid" style="--vp-columns: {{ section.blocks.size | at_most: 4 }};">
+      {%- for block in section.blocks -%}
+        <div class="value-props__cell" {{ block.shopify_attributes }}>
+          <div class="value-props__label">
+            {%- if block.settings.show_mark %}{% render 'brand-mark' %}{% endif -%}
+            <p class="eyebrow">{{ block.settings.label }}</p>
+          </div>
+          <p class="body-copy">{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Value props",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Section eyebrow",
+      "default": "Why it works"
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "taupe", "label": "Taupe" },
+        { "value": "cream", "label": "Cream" },
+        { "value": "ink", "label": "Ink" }
+      ],
+      "default": "taupe"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "prop",
+      "name": "Value prop",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Deep kneading"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Copy",
+          "default": "Counter-rotating nodes mirror the pressure of trained hands, working knots loose at the base of the neck."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_mark",
+          "label": "Show brand mark",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Value props",
+      "blocks": [
+        { "type": "prop", "settings": { "label": "Deep kneading", "text": "Counter-rotating nodes mirror the pressure of trained hands, working knots loose at the base of the neck.", "show_mark": true } },
+        { "type": "prop", "settings": { "label": "Gentle heat", "text": "Low, steady warmth relaxes the muscle before the massage begins — the way a warm compress would.", "show_mark": true } },
+        { "type": "prop", "settings": { "label": "Fits the body", "text": "A weighted U-shape that rests on the shoulders and stays put, hands-free, wherever you sit.", "show_mark": true } }
+      ]
+    }
+  ]
+}
+{% endschema %}

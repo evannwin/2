@@ -1,0 +1,116 @@
+{%- comment -%}
+  Lean first pass — gallery, variant select, accordions.
+  The product-page iteration adds: swatch variant picker, sticky ATC,
+  thumbnail carousel, dynamic media switching.
+{%- endcomment -%}
+
+<section class="scheme-taupe section-pad">
+  <div class="page-width product-main">
+    <div class="product-main__gallery">
+      {%- if product.featured_media -%}
+        {{ product.featured_media
+          | image_url: width: 1800
+          | image_tag:
+            widths: '540, 720, 1000, 1400, 1800',
+            sizes: '(min-width: 768px) 55vw, 100vw',
+            loading: 'eager',
+            alt: product.featured_media.alt | default: product.title | escape }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag }}
+      {%- endif -%}
+    </div>
+
+    <div class="product-main__info">
+      <p class="eyebrow">{{ product.vendor | default: settings.brand_name }}</p>
+      <h1 class="display-md">{{ product.title }}</h1>
+      <p class="product-highlight__price">{{ product.selected_or_first_available_variant.price | money }}</p>
+
+      {%- form 'product', product, class: 'product-main__form' -%}
+        {%- unless product.has_only_default_variant -%}
+          <label class="eyebrow" for="Variants-{{ section.id }}" style="display:block; margin-bottom: 0.5rem;">
+            {{ product.options | join: ' / ' }}
+          </label>
+          <select id="Variants-{{ section.id }}" name="id" style="margin-bottom: 1.25rem;">
+            {%- for variant in product.variants -%}
+              <option
+                value="{{ variant.id }}"
+                {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+                {% unless variant.available %}disabled{% endunless %}
+              >
+                {{ variant.title }} — {{ variant.price | money }}
+                {%- unless variant.available %} ({{ 'products.product.sold_out' | t }}){% endunless %}
+              </option>
+            {%- endfor -%}
+          </select>
+        {%- else -%}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        {%- endunless -%}
+
+        <button
+          type="submit"
+          class="btn-pill"
+          {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+        >
+          {%- if product.selected_or_first_available_variant.available -%}
+            {{ 'products.product.add_to_cart' | t }}
+          {%- else -%}
+            {{ 'products.product.sold_out' | t }}
+          {%- endif -%}
+          <span class="btn-pill__icon">{% render 'icons', icon: 'arrow-right' %}</span>
+        </button>
+      {%- endform -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="product-accordion" style="margin-top: 1rem;">
+          {%- for block in section.blocks -%}
+            <details {% if forloop.first %}open{% endif %} {{ block.shopify_attributes }}>
+              <summary>
+                {{ block.settings.heading }}
+                {% render 'icons', icon: 'plus' %}
+              </summary>
+              <div class="product-accordion__body rte">
+                {%- if block.settings.use_description -%}
+                  {{ product.description }}
+                {%- else -%}
+                  {{ block.settings.content }}
+                {%- endif -%}
+              </div>
+            </details>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "Expandable detail",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Details"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_description",
+          "label": "Use product description",
+          "default": false
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

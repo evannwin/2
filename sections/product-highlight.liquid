@@ -1,0 +1,121 @@
+{%- liquid
+  assign featured = section.settings.product
+-%}
+
+<section class="scheme-{{ section.settings.scheme }} section-pad">
+  <div class="page-width">
+    <div class="product-highlight__grid{% if section.settings.flip %} product-highlight--flip{% endif %}">
+      <div class="product-highlight__media">
+        {%- if section.settings.image -%}
+          {{ section.settings.image
+            | image_url: width: 1400
+            | image_tag:
+              widths: '540, 720, 1000, 1400',
+              sizes: '(min-width: 768px) 50vw, 100vw',
+              loading: 'lazy',
+              alt: section.settings.image.alt | escape }}
+        {%- elsif featured.featured_image -%}
+          {{ featured.featured_image
+            | image_url: width: 1400
+            | image_tag:
+              widths: '540, 720, 1000, 1400',
+              sizes: '(min-width: 768px) 50vw, 100vw',
+              loading: 'lazy',
+              alt: featured.featured_image.alt | default: featured.title | escape }}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag }}
+        {%- endif -%}
+      </div>
+
+      <div class="product-highlight__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+
+        <h2 class="display-lg">
+          {{ section.settings.heading | default: featured.title }}
+        </h2>
+
+        <p class="body-copy">
+          {{ section.settings.text | default: featured.description | strip_html | truncate: 220 }}
+        </p>
+
+        {%- if featured -%}
+          <p class="product-highlight__price">
+            {{ featured.price | money }}
+            {%- if featured.compare_at_price > featured.price %}
+              <s style="margin-left: 0.5rem; opacity: 0.6;">{{ featured.compare_at_price | money }}</s>
+            {%- endif -%}
+          </p>
+        {%- endif -%}
+
+        <a class="btn-pill" href="{{ featured.url | default: routes.all_products_collection_url }}">
+          {{ section.settings.cta_label }}
+          <span class="btn-pill__icon">{% render 'icons', icon: 'arrow-right' %}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product highlight",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image override",
+      "info": "Optional. Falls back to the product's featured image."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The massager"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Leave blank to use the product title."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Copy",
+      "info": "Leave blank to use the product description."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "View the massager"
+    },
+    {
+      "type": "checkbox",
+      "id": "flip",
+      "label": "Image on the right",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "taupe", "label": "Taupe" },
+        { "value": "cream", "label": "Cream" },
+        { "value": "ink", "label": "Ink" }
+      ],
+      "default": "cream"
+    }
+  ],
+  "presets": [{ "name": "Product highlight" }]
+}
+{% endschema %}

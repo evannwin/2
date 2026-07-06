@@ -1,0 +1,51 @@
+<section class="scheme-taupe section-pad">
+  <div class="page-width" style="max-width: 40rem;">
+    <p class="eyebrow" style="margin-bottom: 0.75rem;">{{ section.settings.eyebrow }}</p>
+    <h1 class="display-lg" style="margin-bottom: 2.5rem;">{{ page.title | default: 'Contact' }}</h1>
+
+    {%- form 'contact' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="body-copy" style="margin-bottom: 2rem;">{{ 'contact.form.success' | t }}</p>
+      {%- endif -%}
+
+      <div class="form-field">
+        <label for="ContactName">{{ 'contact.form.name' | t }}</label>
+        <input id="ContactName" type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}">
+      </div>
+
+      <div class="form-field">
+        <label for="ContactEmail">{{ 'contact.form.email' | t }} *</label>
+        <input id="ContactEmail" type="email" name="contact[email]" autocomplete="email" required value="{{ form.email }}">
+        {%- if form.errors contains 'email' -%}
+          <p style="font-size: 0.8125rem;">{{ form.errors.messages.email }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="form-field">
+        <label for="ContactBody">{{ 'contact.form.message' | t }} *</label>
+        <textarea id="ContactBody" name="contact[body]" rows="6" required>{{ form.body }}</textarea>
+      </div>
+
+      <button type="submit" class="btn-pill">
+        {{ 'contact.form.send' | t }}
+        <span class="btn-pill__icon">{% render 'icons', icon: 'arrow-right' %}</span>
+      </button>
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact form",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "We're listening"
+    }
+  ],
+  "presets": [{ "name": "Contact form" }]
+}
+{% endschema %}

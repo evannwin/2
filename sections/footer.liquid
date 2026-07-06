@@ -1,0 +1,78 @@
+<footer class="site-footer scheme-taupe">
+  <div class="page-width">
+    <div class="site-footer__grid">
+      <div>
+        {% render 'brand-mark' %}
+        <p class="site-footer__statement" style="margin-top: 1.25rem;">
+          {{ section.settings.statement }}
+        </p>
+      </div>
+
+      <nav class="site-footer__links" aria-label="Footer">
+        {%- for link in section.settings.menu.links -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- endfor -%}
+      </nav>
+
+      <div>
+        <p class="eyebrow" style="margin-bottom: 1rem;">{{ section.settings.newsletter_heading }}</p>
+        {%- form 'customer', class: 'newsletter-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label class="visually-hidden" for="NewsletterEmail">{{ 'general.newsletter.label' | t }}</label>
+          <input
+            id="NewsletterEmail"
+            type="email"
+            name="contact[email]"
+            value="{{ form.email }}"
+            placeholder="{{ 'general.newsletter.placeholder' | t }}"
+            autocomplete="email"
+            required
+          >
+          <button type="submit" aria-label="{{ 'general.newsletter.submit' | t }}">
+            {% render 'icons', icon: 'arrow-right' %}
+          </button>
+        {%- endform -%}
+        {%- if form.posted_successfully? -%}
+          <p style="margin-top: 0.75rem; font-size: 0.8125rem;">{{ 'general.newsletter.success' | t }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="site-footer__legal">
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ settings.brand_name | default: shop.name }}</span>
+      <span>{{ section.settings.legal_note }}</span>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "statement",
+      "label": "Brand statement",
+      "default": "Relief, designed around the body. Warmth, weight and pressure — nothing more than what nature intended."
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Footer menu",
+      "default": "footer"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Newsletter heading",
+      "default": "Join the pain free era"
+    },
+    {
+      "type": "text",
+      "id": "legal_note",
+      "label": "Legal note",
+      "default": "All natural methodology"
+    }
+  ]
+}
+{% endschema %}

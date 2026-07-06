@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_background }}">
+
+    <title>
+      {{- page_title -}}
+      {%- if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif -%}
+      {%- if current_page != 1 %} &ndash; {{ 'general.pagination.page' | t: page: current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {{ content_for_header }}
+
+    {%- liquid
+      assign heading_font = settings.heading_font
+      assign body_font = settings.body_font
+      assign body_font_medium = body_font | font_modify: 'weight', '500'
+      assign heading_font_italic = heading_font | font_modify: 'style', 'italic'
+    -%}
+
+    <style>
+      {{ heading_font | font_face: font_display: 'swap' }}
+      {%- if heading_font_italic -%}
+        {{ heading_font_italic | font_face: font_display: 'swap' }}
+      {%- endif -%}
+      {{ body_font | font_face: font_display: 'swap' }}
+      {%- if body_font_medium -%}
+        {{ body_font_medium | font_face: font_display: 'swap' }}
+      {%- endif -%}
+
+      :root {
+        --font-heading: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+        --font-heading-weight: {{ heading_font.weight }};
+        --font-body: {{ body_font.family }}, {{ body_font.fallback_families }};
+        --font-body-weight: {{ body_font.weight }};
+
+        --color-bg: {{ settings.color_background }};
+        --color-cream: {{ settings.color_cream }};
+        --color-ink: {{ settings.color_ink }};
+        --color-sand: {{ settings.color_sand }};
+        --color-line: {{ settings.color_cream | color_modify: 'alpha', settings.line_opacity | divided_by: 100.0 }};
+        --color-line-dark: {{ settings.color_ink | color_modify: 'alpha', 0.18 }};
+
+        --heading-scale: {{ settings.heading_scale | divided_by: 100.0 }};
+        --page-width: {{ settings.page_width }}px;
+      }
+    </style>
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+  </head>
+
+  <body class="template-{{ template.name | handle }}">
+    <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+  </body>
+</html>

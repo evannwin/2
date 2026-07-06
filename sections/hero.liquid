@@ -1,0 +1,160 @@
+{%- comment -%}
+  Full-bleed hero: photography underneath, thin grid lines over it,
+  oversized serif headline, eyebrow labels in grid cells, pill CTA.
+{%- endcomment -%}
+
+<section
+  class="hero{% if section.settings.show_grid_lines %} hero--grid-lines{% endif %}"
+  style="--hero-min-height: {{ section.settings.min_height }}svh;"
+>
+  <div class="hero__media">
+    {%- if section.settings.image -%}
+      {{ section.settings.image
+        | image_url: width: 2600
+        | image_tag:
+          widths: '750, 1100, 1500, 1900, 2600',
+          sizes: '100vw',
+          loading: 'eager',
+          fetchpriority: 'high',
+          alt: section.settings.image.alt | escape }}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag }}
+    {%- endif -%}
+  </div>
+
+  <div class="hero__lines" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <div class="hero__frame">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'label' and block.settings.position == 'top' -%}
+        <div class="hero__cell hero__cell--top" {{ block.shopify_attributes }}>
+          <p class="eyebrow hero__label">
+            {%- if block.settings.show_mark %}{% render 'brand-mark' %}{% endif -%}
+            {{ block.settings.text }}
+          </p>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+
+    <div class="hero__center">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+
+      <h1 class="hero__heading display-xl">{{ section.settings.heading }}</h1>
+
+      {%- if section.settings.cta_label != blank -%}
+        <a class="btn-pill" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">
+          {{ section.settings.cta_label }}
+          <span class="btn-pill__icon">{% render 'icons', icon: 'arrow-right' %}</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'label' and block.settings.position == 'bottom' -%}
+        <div class="hero__cell hero__cell--bottom" {{ block.shopify_attributes }}>
+          <p class="eyebrow hero__label">
+            {%- if block.settings.show_mark %}{% render 'brand-mark' %}{% endif -%}
+            {{ block.settings.text }}
+          </p>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image",
+      "info": "Full-bleed model/product photography. 2600px wide recommended."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Neck + shoulder relief"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Headline",
+      "default": "The Pain Free Era"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Shop the massager"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_grid_lines",
+      "label": "Show grid lines",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimum height",
+      "min": 60,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 88
+    }
+  ],
+  "blocks": [
+    {
+      "type": "label",
+      "name": "Grid label",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Improving pain management"
+        },
+        {
+          "type": "select",
+          "id": "position",
+          "label": "Row",
+          "options": [
+            { "value": "top", "label": "Top" },
+            { "value": "bottom", "label": "Bottom" }
+          ],
+          "default": "bottom"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_mark",
+          "label": "Show brand mark",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Hero",
+      "blocks": [
+        { "type": "label", "settings": { "text": "Improving pain management", "position": "bottom", "show_mark": true } },
+        { "type": "label", "settings": { "text": "All natural methodology", "position": "bottom", "show_mark": false } },
+        { "type": "label", "settings": { "text": "Designed around the body", "position": "bottom", "show_mark": false } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,41 @@
+<header class="site-header" style="--brand-mark-size: {{ settings.logo_width }}px;">
+  <div class="page-width site-header__inner">
+    <a class="site-header__logo" href="{{ routes.root_url }}">
+      {% render 'brand-mark' %}
+      <span>{{ settings.brand_name | default: shop.name }}</span>
+    </a>
+
+    <nav class="site-header__nav" aria-label="Primary">
+      {%- for link in section.settings.menu.links limit: 4 -%}
+        <a
+          class="site-header__link"
+          href="{{ link.url }}"
+          {% if link.current %}aria-current="page"{% endif %}
+        >{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+
+    <a class="site-header__cart" href="{{ routes.cart_url }}" aria-label="{{ 'accessibility.cart' | t }}">
+      {% render 'icons', icon: 'cart' %}
+      {%- if cart.item_count > 0 -%}
+        <span class="site-header__cart-count" aria-hidden="true">{{ cart.item_count }}</span>
+        <span class="visually-hidden">{{ cart.item_count }} {{ 'accessibility.cart_count' | t }}</span>
+      {%- endif -%}
+    </a>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu",
+      "info": "Keep it minimal — the first 4 links are shown."
+    }
+  ]
+}
+{% endschema %}

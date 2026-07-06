@@ -1,0 +1,12 @@
+{%- comment -%}
+  The recurring botanical brand mark.
+  Renders the merchant-uploaded icon if present, else the built-in flower SVG.
+  Usage: {% render 'brand-mark' %}
+{%- endcomment -%}
+<span class="brand-mark" aria-hidden="true">
+  {%- if settings.logo_icon -%}
+    {{ settings.logo_icon | image_url: width: 96 | image_tag: loading: 'lazy', alt: '' }}
+  {%- else -%}
+    {% render 'icons', icon: 'flower' %}
+  {%- endif -%}
+</span>

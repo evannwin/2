@@ -1,0 +1,17 @@
+<section class="scheme-taupe section-pad">
+  <div class="page-width" style="max-width: 52rem;">
+    <p class="eyebrow" style="margin-bottom: 0.75rem;">{{ settings.brand_name }}</p>
+    <h1 class="display-lg" style="margin-bottom: 2.5rem;">{{ page.title }}</h1>
+    <div class="rte body-copy" style="max-width: none;">
+      {{ page.content }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

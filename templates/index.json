@@ -1,0 +1,98 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "label-1": {
+          "type": "label",
+          "settings": { "text": "Improving pain management", "position": "bottom", "show_mark": true }
+        },
+        "label-2": {
+          "type": "label",
+          "settings": { "text": "All natural methodology", "position": "bottom", "show_mark": false }
+        },
+        "label-3": {
+          "type": "label",
+          "settings": { "text": "Designed around the body", "position": "bottom", "show_mark": false }
+        }
+      },
+      "block_order": ["label-1", "label-2", "label-3"],
+      "settings": {
+        "eyebrow": "Neck + shoulder relief",
+        "heading": "The Pain Free Era",
+        "cta_label": "Shop the massager",
+        "show_grid_lines": true,
+        "min_height": 88
+      }
+    },
+    "value-props": {
+      "type": "value-props",
+      "blocks": {
+        "prop-1": {
+          "type": "prop",
+          "settings": {
+            "label": "Deep kneading",
+            "text": "Counter-rotating nodes mirror the pressure of trained hands, working knots loose at the base of the neck.",
+            "show_mark": true
+          }
+        },
+        "prop-2": {
+          "type": "prop",
+          "settings": {
+            "label": "Gentle heat",
+            "text": "Low, steady warmth relaxes the muscle before the massage begins — the way a warm compress would.",
+            "show_mark": true
+          }
+        },
+        "prop-3": {
+          "type": "prop",
+          "settings": {
+            "label": "Fits the body",
+            "text": "A weighted U-shape that rests on the shoulders and stays put, hands-free, wherever you sit.",
+            "show_mark": true
+          }
+        }
+      },
+      "block_order": ["prop-1", "prop-2", "prop-3"],
+      "settings": { "eyebrow": "Why it works", "scheme": "taupe" }
+    },
+    "product-highlight": {
+      "type": "product-highlight",
+      "settings": {
+        "eyebrow": "The massager",
+        "cta_label": "View the massager",
+        "flip": false,
+        "scheme": "cream"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "quote-1": {
+          "type": "quote",
+          "settings": {
+            "quote": "Ten minutes in the evening and the knot I've carried for years just isn't there anymore.",
+            "author": "Mara T. — Verified buyer"
+          }
+        },
+        "quote-2": {
+          "type": "quote",
+          "settings": {
+            "quote": "It feels less like a gadget and more like a ritual. The warmth alone is worth it.",
+            "author": "Jonas K. — Verified buyer"
+          }
+        },
+        "quote-3": {
+          "type": "quote",
+          "settings": {
+            "quote": "I sit at a desk all day. This is the first thing that's actually changed how my shoulders feel.",
+            "author": "Priya S. — Verified buyer"
+          }
+        }
+      },
+      "block_order": ["quote-1", "quote-2", "quote-3"],
+      "settings": { "eyebrow": "What people say", "scheme": "ink" }
+    }
+  },
+  "order": ["hero", "value-props", "product-highlight", "testimonials"]
+}

@@ -1,0 +1,29 @@
+{%- comment -%}
+  Product card for collection grids and related products.
+  Usage: {% render 'product-card', product: product %}
+{%- endcomment -%}
+<a class="product-card" href="{{ product.url }}">
+  <div class="product-card__media">
+    {%- if product.featured_image -%}
+      {{ product.featured_image
+        | image_url: width: 900
+        | image_tag:
+          widths: '360, 540, 720, 900',
+          sizes: '(min-width: 768px) 33vw, 50vw',
+          loading: 'lazy',
+          alt: product.featured_image.alt | default: product.title | escape }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag }}
+    {%- endif -%}
+  </div>
+  <div>
+    <h3 class="product-card__title">{{ product.title }}</h3>
+    <p class="product-card__price">
+      {%- if product.compare_at_price > product.price -%}
+        <s>{{ product.compare_at_price | money }}</s>
+      {%- endif %}
+      {{ product.price | money }}
+      {%- unless product.available %} &middot; {{ 'products.product.sold_out' | t }}{% endunless -%}
+    </p>
+  </div>
+</a>

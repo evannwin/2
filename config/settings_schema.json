@@ -1,0 +1,118 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "SomNexra",
+    "theme_version": "0.1.0",
+    "theme_author": "SomNexra",
+    "theme_documentation_url": "https://github.com/evannwin/2",
+    "theme_support_url": "https://github.com/evannwin/2"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo_icon",
+        "label": "Brand mark (flower icon)",
+        "info": "Small botanical mark used in the nav, section dividers and buttons. SVG or transparent PNG recommended."
+      },
+      {
+        "type": "text",
+        "id": "brand_name",
+        "label": "Brand name",
+        "default": "SomNexra"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "Brand mark size",
+        "min": 16,
+        "max": 48,
+        "step": 2,
+        "unit": "px",
+        "default": 26
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background (taupe)",
+        "default": "#8C8371"
+      },
+      {
+        "type": "color",
+        "id": "color_cream",
+        "label": "Text on taupe (cream)",
+        "default": "#F5F0E6"
+      },
+      {
+        "type": "color",
+        "id": "color_ink",
+        "label": "Dark fill (buttons, dark sections)",
+        "default": "#2B2620"
+      },
+      {
+        "type": "color",
+        "id": "color_sand",
+        "label": "Accent (sand)",
+        "default": "#C9BEA9"
+      },
+      {
+        "type": "range",
+        "id": "line_opacity",
+        "label": "Grid line opacity",
+        "min": 10,
+        "max": 60,
+        "step": 5,
+        "unit": "%",
+        "default": 30
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "heading_font",
+        "label": "Display serif",
+        "default": "playfair_display_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "body_font",
+        "label": "Body sans-serif",
+        "default": "work_sans_n4"
+      },
+      {
+        "type": "range",
+        "id": "heading_scale",
+        "label": "Headline size scale",
+        "min": 80,
+        "max": 130,
+        "step": 5,
+        "unit": "%",
+        "default": 100
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_width",
+        "label": "Maximum content width",
+        "min": 1100,
+        "max": 1600,
+        "step": 50,
+        "unit": "px",
+        "default": 1440
+      }
+    ]
+  }
+]

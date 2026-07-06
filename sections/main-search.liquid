@@ -1,0 +1,44 @@
+<section class="scheme-taupe section-pad">
+  <div class="page-width">
+    <h1 class="display-lg" style="margin-bottom: 2.5rem;">{{ 'general.search.title' | t }}</h1>
+
+    <form action="{{ routes.search_url }}" method="get" role="search" class="newsletter-form" style="margin-bottom: 3rem;">
+      <label class="visually-hidden" for="SearchInput">{{ 'general.search.placeholder' | t }}</label>
+      <input
+        id="SearchInput"
+        type="search"
+        name="q"
+        value="{{ search.terms | escape }}"
+        placeholder="{{ 'general.search.placeholder' | t }}"
+        style="color: inherit;"
+      >
+      <button type="submit" aria-label="{{ 'general.search.title' | t }}">
+        {% render 'icons', icon: 'arrow-right' %}
+      </button>
+    </form>
+
+    {%- if search.performed -%}
+      {%- if search.results_count > 0 -%}
+        {%- paginate search.results by 12 -%}
+          <div class="product-grid">
+            {%- for item in search.results -%}
+              {%- if item.object_type == 'product' -%}
+                {% render 'product-card', product: item %}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endpaginate -%}
+      {%- else -%}
+        <p class="body-copy">{{ 'general.search.no_results' | t: terms: search.terms }}</p>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Search",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

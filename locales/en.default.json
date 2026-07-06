@@ -1,0 +1,71 @@
+{
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "cart": "Cart",
+    "cart_count": "items in cart"
+  },
+  "general": {
+    "pagination": {
+      "page": "Page {{ page }}",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "search": {
+      "title": "Search",
+      "placeholder": "Search our store",
+      "no_results": "No results found for \"{{ terms }}\"."
+    },
+    "newsletter": {
+      "label": "Email address",
+      "placeholder": "Your email",
+      "submit": "Subscribe",
+      "success": "Thank you for subscribing."
+    },
+    "404": {
+      "title": "Page not found",
+      "subtext": "The page you were looking for doesn't exist.",
+      "link": "Continue shopping"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable",
+      "quantity": "Quantity",
+      "price": "Price",
+      "regular_price": "Regular price",
+      "sale_price": "Sale price",
+      "view_details": "View details",
+      "related_heading": "You may also like"
+    }
+  },
+  "collections": {
+    "general": {
+      "empty": "No products found in this collection.",
+      "all_products": "All products",
+      "sort_by": "Sort by"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Your cart",
+      "empty": "Your cart is empty.",
+      "continue_shopping": "Continue shopping",
+      "checkout": "Check out",
+      "update": "Update cart",
+      "remove": "Remove",
+      "subtotal": "Subtotal",
+      "taxes_and_shipping": "Taxes and shipping calculated at checkout"
+    }
+  },
+  "contact": {
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "send": "Send message",
+      "success": "Thanks for reaching out. We'll get back to you soon."
+    }
+  }
+}

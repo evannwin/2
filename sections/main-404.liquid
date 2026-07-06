@@ -1,0 +1,18 @@
+<section class="scheme-taupe section-pad" style="min-height: 60svh; display: grid; place-items: center;">
+  <div class="page-width" style="text-align: center;">
+    <h1 class="display-lg" style="margin-bottom: 1rem;">{{ 'general.404.title' | t }}</h1>
+    <p class="body-copy" style="margin: 0 auto 2rem;">{{ 'general.404.subtext' | t }}</p>
+    <a class="btn-pill" href="{{ routes.all_products_collection_url }}">
+      {{ 'general.404.link' | t }}
+      <span class="btn-pill__icon">{% render 'icons', icon: 'arrow-right' %}</span>
+    </a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "404",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

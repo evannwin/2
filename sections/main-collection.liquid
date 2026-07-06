@@ -1,0 +1,37 @@
+<section class="scheme-taupe section-pad">
+  <div class="page-width">
+    <p class="eyebrow" style="margin-bottom: 0.75rem;">{{ 'collections.general.all_products' | t }}</p>
+    <h1 class="display-lg" style="margin-bottom: 3rem;">{{ collection.title }}</h1>
+
+    {%- paginate collection.products by 12 -%}
+      {%- if collection.products.size > 0 -%}
+        <div class="product-grid">
+          {%- for product in collection.products -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <p class="body-copy">{{ 'collections.general.empty' | t }}</p>
+      {%- endif -%}
+
+      {%- if paginate.pages > 1 -%}
+        <nav style="margin-top: 3rem; display: flex; gap: 1.5rem;" aria-label="Pagination">
+          {%- if paginate.previous -%}
+            <a class="eyebrow" href="{{ paginate.previous.url }}">&larr; {{ 'general.pagination.previous' | t }}</a>
+          {%- endif -%}
+          {%- if paginate.next -%}
+            <a class="eyebrow" href="{{ paginate.next.url }}">{{ 'general.pagination.next' | t }} &rarr;</a>
+          {%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}
