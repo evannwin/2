@@ -243,6 +243,13 @@ h1, h2, h3, .h1, .h2, .h3 {
   box-shadow: none;
 }
 
+.btn-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 /* ---- Flower mark ---- */
 .brand-mark {
   display: inline-block;

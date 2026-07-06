@@ -65,7 +65,8 @@
       {%- endform -%}
     {%- else -%}
       <p class="body-copy" style="margin-bottom: 2rem;">{{ 'cart.general.empty' | t }}</p>
-      <a class="btn-pill" href="{{ routes.all_products_collection_url }}">
+      {%- assign shop_url = collections.all.products.first.url | default: routes.all_products_collection_url -%}
+      <a class="btn-pill" href="{{ shop_url }}">
         {{ 'cart.general.continue_shopping' | t }}
         <span class="btn-pill__icon">{% render 'icons', icon: 'arrow-right' %}</span>
       </a>

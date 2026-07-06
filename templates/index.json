@@ -60,7 +60,8 @@
       "type": "product-highlight",
       "settings": {
         "eyebrow": "The massager",
-        "cta_label": "View the massager",
+        "cta_label": "View details",
+        "enable_quick_add": true,
         "flip": false,
         "scheme": "cream"
       }

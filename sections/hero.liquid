@@ -44,7 +44,14 @@
       <h1 class="hero__heading display-xl">{{ section.settings.heading }}</h1>
 
       {%- if section.settings.cta_label != blank -%}
-        <a class="btn-pill" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">
+        {%- liquid
+          # One-product store: default the CTA straight to the product page
+          assign cta_url = section.settings.cta_link
+          if cta_url == blank
+            assign cta_url = collections.all.products.first.url | default: routes.all_products_collection_url
+          endif
+        -%}
+        <a class="btn-pill" href="{{ cta_url }}">
           {{ section.settings.cta_label }}
           <span class="btn-pill__icon">{% render 'icons', icon: 'arrow-right' %}</span>
         </a>

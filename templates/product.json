@@ -37,15 +37,7 @@
         "enable_sticky_atc": true,
         "swatches": "Sand:#C9BEA9\nCharcoal:#3A362F"
       }
-    },
-    "related": {
-      "type": "related-products",
-      "settings": {
-        "heading": "You may also like",
-        "limit": 3,
-        "scheme": "cream"
-      }
     }
   },
-  "order": ["main", "related"]
+  "order": ["main"]
 }
