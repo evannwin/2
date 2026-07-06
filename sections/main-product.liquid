@@ -1,63 +1,148 @@
-{%- comment -%}
-  Lean first pass — gallery, variant select, accordions.
-  The product-page iteration adds: swatch variant picker, sticky ATC,
-  thumbnail carousel, dynamic media switching.
-{%- endcomment -%}
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign product_form_id = 'ProductForm-' | append: section.id
+-%}
 
-<section class="scheme-taupe section-pad">
+<section class="scheme-taupe section-pad" data-product-section>
   <div class="page-width product-main">
     <div class="product-main__gallery">
-      {%- if product.featured_media -%}
-        {{ product.featured_media
-          | image_url: width: 1800
-          | image_tag:
-            widths: '540, 720, 1000, 1400, 1800',
-            sizes: '(min-width: 768px) 55vw, 100vw',
-            loading: 'eager',
-            alt: product.featured_media.alt | default: product.title | escape }}
-      {%- else -%}
-        {{ 'product-1' | placeholder_svg_tag }}
+      <div class="gallery__main">
+        {%- if product.media.size > 0 -%}
+          {%- for media in product.media -%}
+            {%- liquid
+              if forloop.first
+                assign img_loading = 'eager'
+              else
+                assign img_loading = 'lazy'
+              endif
+            -%}
+            <div
+              class="gallery__slide{% if forloop.first %} is-active{% endif %}"
+              data-media-id="{{ media.id }}"
+            >
+              {{ media.preview_image
+                | image_url: width: 1800
+                | image_tag:
+                  widths: '540, 720, 1000, 1400, 1800',
+                  sizes: '(min-width: 768px) 55vw, 100vw',
+                  loading: img_loading,
+                  alt: media.alt | default: product.title | escape }}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          <div class="gallery__slide is-active">{{ 'product-1' | placeholder_svg_tag }}</div>
+        {%- endif -%}
+      </div>
+
+      {%- if product.media.size > 1 -%}
+        <div class="gallery__thumbs" role="tablist" aria-label="Product images">
+          {%- for media in product.media -%}
+            <button
+              type="button"
+              class="gallery__thumb{% if forloop.first %} is-active{% endif %}"
+              data-media-id="{{ media.id }}"
+              aria-label="Image {{ forloop.index }} of {{ product.media.size }}"
+            >
+              {{ media.preview_image
+                | image_url: width: 144
+                | image_tag: loading: 'lazy', alt: '' }}
+            </button>
+          {%- endfor -%}
+        </div>
       {%- endif -%}
     </div>
 
     <div class="product-main__info">
       <p class="eyebrow">{{ product.vendor | default: settings.brand_name }}</p>
       <h1 class="display-md">{{ product.title }}</h1>
-      <p class="product-highlight__price">{{ product.selected_or_first_available_variant.price | money }}</p>
 
-      {%- form 'product', product, class: 'product-main__form' -%}
+      <p class="product-highlight__price">
+        <span data-price>{{ current_variant.price | money }}</span>
+        <s data-compare-price style="margin-left: 0.5rem; opacity: 0.6;{% unless current_variant.compare_at_price > current_variant.price %} display: none;{% endunless %}">
+          {{- current_variant.compare_at_price | money -}}
+        </s>
+      </p>
+
+      {%- form 'product', product, id: product_form_id, class: 'product-main__form' -%}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+
         {%- unless product.has_only_default_variant -%}
-          <label class="eyebrow" for="Variants-{{ section.id }}" style="display:block; margin-bottom: 0.5rem;">
-            {{ product.options | join: ' / ' }}
-          </label>
-          <select id="Variants-{{ section.id }}" name="id" style="margin-bottom: 1.25rem;">
-            {%- for variant in product.variants -%}
-              <option
-                value="{{ variant.id }}"
-                {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
-                {% unless variant.available %}disabled{% endunless %}
-              >
-                {{ variant.title }} — {{ variant.price | money }}
-                {%- unless variant.available %} ({{ 'products.product.sold_out' | t }}){% endunless %}
-              </option>
-            {%- endfor -%}
-          </select>
-        {%- else -%}
-          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          {%- for option in product.options_with_values -%}
+            {%- liquid
+              assign option_name_down = option.name | downcase
+              assign is_color = false
+              if option_name_down == 'color' or option_name_down == 'colour'
+                assign is_color = true
+              endif
+            -%}
+            <fieldset class="option-picker" data-option-picker data-option-index="{{ forloop.index0 }}">
+              <legend class="eyebrow">
+                {{ option.name }} &mdash; <span data-selected-label>{{ option.selected_value }}</span>
+              </legend>
+              <div class="option-picker__values">
+                {%- for value in option.values -%}
+                  <label class="{% if is_color %}swatch{% else %}option-pill{% endif %}">
+                    <input
+                      type="radio"
+                      name="option-{{ section.id }}-{{ forloop.parentloop.index0 }}"
+                      value="{{ value | escape }}"
+                      {% if value == option.selected_value %}checked{% endif %}
+                    >
+                    {%- if is_color -%}
+                      {%- liquid
+                        assign swatch_color = value | downcase
+                        assign entries = section.settings.swatches | newline_to_br | split: '<br />'
+                        for entry in entries
+                          assign pair = entry | split: ':'
+                          assign entry_name = pair[0] | strip | downcase
+                          if entry_name == swatch_color and pair[1] != blank
+                            assign swatch_color = pair[1] | strip
+                          endif
+                        endfor
+                      -%}
+                      <span class="swatch__dot" style="--swatch: {{ swatch_color }};"></span>
+                      <span class="visually-hidden">{{ value }}</span>
+                    {%- else -%}
+                      <span class="option-pill__label">{{ value }}</span>
+                    {%- endif -%}
+                  </label>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          {%- endfor -%}
         {%- endunless -%}
 
-        <button
-          type="submit"
-          class="btn-pill"
-          {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
-        >
-          {%- if product.selected_or_first_available_variant.available -%}
-            {{ 'products.product.add_to_cart' | t }}
-          {%- else -%}
-            {{ 'products.product.sold_out' | t }}
-          {%- endif -%}
-          <span class="btn-pill__icon">{% render 'icons', icon: 'arrow-right' %}</span>
-        </button>
+        <div class="buy-row">
+          <div class="qty">
+            <button type="button" data-qty-minus aria-label="Decrease quantity">&minus;</button>
+            <label class="visually-hidden" for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label>
+            <input
+              id="Quantity-{{ section.id }}"
+              type="number"
+              name="quantity"
+              value="1"
+              min="1"
+              inputmode="numeric"
+            >
+            <button type="button" data-qty-plus aria-label="Increase quantity">+</button>
+          </div>
+
+          <button
+            type="submit"
+            class="btn-pill"
+            data-add-button
+            {% unless current_variant.available %}disabled{% endunless %}
+          >
+            <span data-add-label>
+              {%- if current_variant.available -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- else -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- endif -%}
+            </span>
+            <span class="btn-pill__icon">{% render 'icons', icon: 'arrow-right' %}</span>
+          </button>
+        </div>
       {%- endform -%}
 
       {%- if section.blocks.size > 0 -%}
@@ -81,12 +166,72 @@
       {%- endif -%}
     </div>
   </div>
+
+  {%- if section.settings.enable_sticky_atc -%}
+    <div class="sticky-atc" data-sticky-atc aria-hidden="true">
+      <div class="sticky-atc__inner">
+        <div class="sticky-atc__meta">
+          <p class="sticky-atc__title">{{ product.title }}</p>
+          <p class="sticky-atc__price" data-price-sticky>{{ current_variant.price | money }}</p>
+        </div>
+        <button
+          type="submit"
+          form="{{ product_form_id }}"
+          class="btn-pill"
+          data-add-button-sticky
+          tabindex="-1"
+          {% unless current_variant.available %}disabled{% endunless %}
+        >
+          <span data-add-label-sticky>
+            {%- if current_variant.available -%}
+              {{ 'products.product.add_to_cart' | t }}
+            {%- else -%}
+              {{ 'products.product.sold_out' | t }}
+            {%- endif -%}
+          </span>
+          <span class="btn-pill__icon">{% render 'icons', icon: 'arrow-right' %}</span>
+        </button>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <script type="application/json" data-product-json>
+    {{ product | json }}
+  </script>
+  <script
+    type="application/json"
+    data-product-strings
+  >
+    {
+      "addToCart": {{ 'products.product.add_to_cart' | t | json }},
+      "soldOut": {{ 'products.product.sold_out' | t | json }},
+      "unavailable": {{ 'products.product.unavailable' | t | json }},
+      "currency": {{ cart.currency.iso_code | json }},
+      "locale": {{ request.locale.iso_code | json }}
+    }
+  </script>
+  <script src="{{ 'product.js' | asset_url }}" defer></script>
 </section>
 
 {% schema %}
 {
   "name": "Product",
   "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_atc",
+      "label": "Sticky add to cart on scroll",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "swatches",
+      "label": "Color swatches",
+      "info": "One per line, as Name:Hex. Values not listed fall back to the color name itself.",
+      "default": "Sand:#C9BEA9\nCharcoal:#3A362F"
+    }
+  ],
   "blocks": [
     {
       "type": "detail",

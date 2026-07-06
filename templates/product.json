@@ -32,8 +32,20 @@
           }
         }
       },
-      "block_order": ["detail-1", "detail-2", "detail-3", "detail-4"]
+      "block_order": ["detail-1", "detail-2", "detail-3", "detail-4"],
+      "settings": {
+        "enable_sticky_atc": true,
+        "swatches": "Sand:#C9BEA9\nCharcoal:#3A362F"
+      }
+    },
+    "related": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "limit": 3,
+        "scheme": "cream"
+      }
     }
   },
-  "order": ["main"]
+  "order": ["main", "related"]
 }
