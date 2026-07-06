@@ -1,0 +1,244 @@
+{%- liquid
+  assign c5 = section.settings.count_5
+  assign c4 = section.settings.count_4
+  assign c3 = section.settings.count_3
+  assign c2 = section.settings.count_2
+  assign c1 = section.settings.count_1
+  assign total = c5 | plus: c4 | plus: c3 | plus: c2 | plus: c1
+  if total == 0
+    assign total = 1
+  endif
+-%}
+
+<section class="section section--surface" id="Reviews">
+  <div class="container container--narrow">
+    <div class="section-head">
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="rev-summary">
+      <div class="rev-summary__score">
+        <div class="rev-summary__num">{{ section.settings.average }}</div>
+        {% render 'stars', rating: section.settings.average, size: 'lg' %}
+        <p class="rev-summary__count">{{ section.settings.count_text }}</p>
+      </div>
+      <div class="rev-bars">
+        {%- assign counts = '5,4,3,2,1' | split: ',' -%}
+        {%- for star in counts -%}
+          {%- liquid
+            case star
+              when '5'
+                assign count = c5
+              when '4'
+                assign count = c4
+              when '3'
+                assign count = c3
+              when '2'
+                assign count = c2
+              else
+                assign count = c1
+            endcase
+            assign pct = count | times: 100 | divided_by: total
+          -%}
+          <div class="rev-bar">
+            <span>{{ star }} star</span>
+            <div class="rev-bar__track"><div class="rev-bar__fill" style="width: {{ pct }}%"></div></div>
+            <span>{{ pct }}%</span>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <div class="rev-grid">
+      {%- for block in section.blocks -%}
+        <article class="rev-card" {{ block.shopify_attributes }}>
+          <div class="rev-card__head">
+            {% render 'stars', rating: block.settings.rating %}
+            {%- if block.settings.date != blank -%}
+              <span class="rev-card__meta">{{ block.settings.date }}</span>
+            {%- endif -%}
+          </div>
+          {%- if block.settings.title != blank -%}
+            <h3 class="rev-card__title">{{ block.settings.title }}</h3>
+          {%- endif -%}
+          <p class="rev-card__body">{{ block.settings.body }}</p>
+          {%- if block.settings.photo != blank -%}
+            <div class="rev-card__photo">
+              <img
+                src="{{ block.settings.photo | image_url: width: 320 }}"
+                alt="Customer photo from {{ block.settings.name | escape }}"
+                loading="lazy"
+                width="160"
+                height="160"
+              >
+            </div>
+          {%- endif -%}
+          <div class="rev-card__meta">
+            <span class="name">{{ block.settings.name }}</span>
+            {%- if block.settings.verified -%}
+              <span class="verified">{% render 'icon', name: 'check-circle' %} Verified purchase</span>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product reviews",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Manage reviews manually here to start. When you install a review app later (Judge.me, Loox, etc.), replace this section with the app block."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What customers say"
+    },
+    {
+      "type": "range",
+      "id": "average",
+      "label": "Average rating",
+      "min": 3,
+      "max": 5,
+      "step": 0.1,
+      "default": 4.8
+    },
+    {
+      "type": "text",
+      "id": "count_text",
+      "label": "Review count text",
+      "default": "Based on 2,347 reviews"
+    },
+    {
+      "type": "header",
+      "content": "Star breakdown"
+    },
+    {
+      "type": "number",
+      "id": "count_5",
+      "label": "5-star count",
+      "default": 1901
+    },
+    {
+      "type": "number",
+      "id": "count_4",
+      "label": "4-star count",
+      "default": 305
+    },
+    {
+      "type": "number",
+      "id": "count_3",
+      "label": "3-star count",
+      "default": 94
+    },
+    {
+      "type": "number",
+      "id": "count_2",
+      "label": "2-star count",
+      "default": 28
+    },
+    {
+      "type": "number",
+      "id": "count_1",
+      "label": "1-star count",
+      "default": 19
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Review title",
+          "default": "Better than my massage therapist"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Review text",
+          "default": "I hold all my stress in my shoulders and this gets in deeper than I expected. The heat is the sleeper feature — ten minutes and everything unclenches."
+        },
+        {
+          "type": "image_picker",
+          "id": "photo",
+          "label": "Customer photo"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Reviewer name",
+          "default": "Jamie R."
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Date text",
+          "default": "2 weeks ago"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Verified purchase badge",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product reviews",
+      "blocks": [
+        { "type": "review" },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Strong enough for real knots",
+            "body": "Read a lot of reviews worrying about strength. It has three levels and level two is already firmer than most spa chairs. My husband (rugby shoulders) uses level three.",
+            "name": "Priya S.",
+            "date": "1 month ago"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "title": "Great, wish the cord was longer",
+            "body": "Does exactly what it promises on neck and traps. Only wish is a slightly longer power cord so I could use it in bed. Otherwise excellent.",
+            "name": "Tom W.",
+            "date": "3 weeks ago"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Bought a second one for my mom",
+            "body": "She stole mine over the holidays, so that tells you everything. The white one looks genuinely nice left out on the couch.",
+            "name": "Alicia G.",
+            "date": "2 months ago"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

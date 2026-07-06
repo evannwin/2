@@ -1,0 +1,46 @@
+<div class="container account-page">
+  <h1>Addresses</h1>
+  <p><a href="{{ routes.account_url }}">Back to account</a></p>
+
+  {%- paginate customer.addresses by 10 -%}
+    {%- for address in customer.addresses -%}
+      <div style="border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.6rem; margin-bottom: 1.2rem;">
+        {%- if address == customer.default_address -%}
+          <p><strong>Default</strong></p>
+        {%- endif -%}
+        {{ address | format_address }}
+      </div>
+    {%- endfor -%}
+  {%- endpaginate -%}
+
+  <h2 style="margin-top: 3.2rem;">Add a new address</h2>
+  {%- form 'customer_address', customer.new_address -%}
+    <div class="field">
+      <label for="AddressFirstName">First name</label>
+      <input type="text" id="AddressFirstName" name="address[first_name]" autocomplete="given-name">
+    </div>
+    <div class="field">
+      <label for="AddressLastName">Last name</label>
+      <input type="text" id="AddressLastName" name="address[last_name]" autocomplete="family-name">
+    </div>
+    <div class="field">
+      <label for="AddressAddress1">Address</label>
+      <input type="text" id="AddressAddress1" name="address[address1]" autocomplete="address-line1">
+    </div>
+    <div class="field">
+      <label for="AddressCity">City</label>
+      <input type="text" id="AddressCity" name="address[city]" autocomplete="address-level2">
+    </div>
+    <div class="field">
+      <label for="AddressCountry">Country/region</label>
+      <select id="AddressCountry" name="address[country]" data-default="{{ form.country }}">
+        {{ all_country_option_tags }}
+      </select>
+    </div>
+    <div class="field">
+      <label for="AddressZip">Postal/ZIP code</label>
+      <input type="text" id="AddressZip" name="address[zip]" autocomplete="postal-code">
+    </div>
+    <button type="submit" class="btn btn--primary">Add address</button>
+  {%- endform -%}
+</div>

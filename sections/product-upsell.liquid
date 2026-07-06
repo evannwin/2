@@ -1,0 +1,101 @@
+<section class="section">
+  <div class="container">
+    {%- if section.settings.show_bundle_callout -%}
+      <div class="bundle-callout">
+        <div>
+          <h3>{{ section.settings.bundle_heading }}</h3>
+          <p>{{ section.settings.bundle_text }}</p>
+        </div>
+        {%- if section.settings.bundle_button_label != blank -%}
+          {%- if section.settings.bundle_variant_id != blank -%}
+            <button class="btn btn--primary" type="button" data-quick-add="{{ section.settings.bundle_variant_id }}">
+              {{ section.settings.bundle_button_label }}
+            </button>
+          {%- elsif section.settings.bundle_link != blank -%}
+            <a class="btn btn--primary" href="{{ section.settings.bundle_link }}">{{ section.settings.bundle_button_label }}</a>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.products.count > 0 -%}
+      <div class="section-head">
+        <h2>{{ section.settings.heading }}</h2>
+      </div>
+      <div class="upsell-grid" style="--upsell-cols: {{ section.settings.products.count | at_most: 4 }};">
+        {%- for upsell_product in section.settings.products -%}
+          {% render 'product-card', card_product: upsell_product %}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Upsell / bundle",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Bundle callout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bundle_callout",
+      "label": "Show bundle callout",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "bundle_heading",
+      "label": "Heading",
+      "default": "Get two, save 10%"
+    },
+    {
+      "type": "textarea",
+      "id": "bundle_text",
+      "label": "Text",
+      "default": "One for home, one for the office — or the person who keeps borrowing yours. Discount applies automatically at checkout."
+    },
+    {
+      "type": "text",
+      "id": "bundle_button_label",
+      "label": "Button label",
+      "default": "Add a second unit"
+    },
+    {
+      "type": "text",
+      "id": "bundle_variant_id",
+      "label": "Variant ID to quick-add",
+      "info": "Optional. Paste a variant ID to add it straight to the cart. Find it in Admin → Products → Variants (the number in the URL)."
+    },
+    {
+      "type": "url",
+      "id": "bundle_link",
+      "label": "Button link (fallback)",
+      "info": "Used if no variant ID is set."
+    },
+    {
+      "type": "header",
+      "content": "You might also like"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "You might also like"
+    },
+    {
+      "type": "product_list",
+      "id": "products",
+      "label": "Products",
+      "limit": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Upsell / bundle"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,199 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "trust_bar": {
+      "type": "trust-bar",
+      "blocks": {
+        "trust_rating": {
+          "type": "item",
+          "settings": {
+            "show_stars": true,
+            "star_rating": 4.8,
+            "title": "Rated 4.8 / 5",
+            "text": "By 2,300+ customers"
+          }
+        },
+        "trust_shipping": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Free U.S. shipping",
+            "text": "2–5 business days"
+          }
+        },
+        "trust_returns": {
+          "type": "item",
+          "settings": {
+            "icon": "return",
+            "title": "30-night trial",
+            "text": "Love it or return it"
+          }
+        },
+        "trust_warranty": {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "title": "1-year warranty",
+            "text": "Covered, no fine print"
+          }
+        }
+      },
+      "block_order": ["trust_rating", "trust_shipping", "trust_returns", "trust_warranty"]
+    },
+    "problem_solution": {
+      "type": "problem-solution",
+      "blocks": {
+        "ps_kneading": {
+          "type": "item",
+          "settings": {
+            "icon": "hand",
+            "title": "Real shiatsu kneading, not vibration",
+            "text": "Eight rotating nodes press and roll deep into the muscle — the same motion a massage therapist uses on stubborn knots."
+          }
+        },
+        "ps_motor": {
+          "type": "item",
+          "settings": {
+            "icon": "zap",
+            "title": "26W brushless motor with real grip",
+            "text": "Strong enough to work through tight trapezius muscle, quiet enough to use on the sofa while everyone else watches TV."
+          }
+        },
+        "ps_straps": {
+          "type": "item",
+          "settings": {
+            "icon": "neck",
+            "title": "Hands-free cross-strap design",
+            "text": "Slip your arms through the straps to control the pressure. Lean in for deeper work, ease off to unwind."
+          }
+        },
+        "ps_time": {
+          "type": "item",
+          "settings": {
+            "icon": "clock",
+            "title": "15 minutes is all it takes",
+            "text": "Use it after work, before bed, or between meetings. Built-in heat helps muscles let go faster."
+          }
+        }
+      },
+      "block_order": ["ps_kneading", "ps_motor", "ps_straps", "ps_time"]
+    },
+    "showcase": {
+      "type": "product-showcase",
+      "blocks": {
+        "show_sofa": {
+          "type": "row",
+          "settings": {
+            "eyebrow": "On the sofa",
+            "title": "Your nightly wind-down",
+            "text": "Fifteen minutes with heat on while you watch your show. Most customers say this is when they feel their shoulders finally drop."
+          }
+        },
+        "show_desk": {
+          "type": "row",
+          "settings": {
+            "eyebrow": "At your desk",
+            "title": "Between back-to-back calls",
+            "text": "The wearable cross-strap design means you can keep typing while the nodes work through your trapezius."
+          }
+        },
+        "show_colors": {
+          "type": "row",
+          "settings": {
+            "eyebrow": "Two colorways",
+            "title": "Cloud White or Stone Grey",
+            "text": "A finish that looks at home on your shelf — not like gym equipment you need to hide when guests come over."
+          }
+        }
+      },
+      "block_order": ["show_sofa", "show_desk", "show_colors"]
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "quote_sarah": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "“I was skeptical it would be strong enough. It's stronger than the massage chair at the mall — my shoulders feel loose for the first time in years.”",
+            "name": "Sarah M.",
+            "rating": 5
+          }
+        },
+        "quote_daniel": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "“I work 10-hour days at a laptop. This is the only thing that touches the knot under my right shoulder blade. Worth every cent.”",
+            "name": "Daniel K.",
+            "rating": 5
+          }
+        },
+        "quote_marcus": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "“Bought it for my wife, ended up fighting her for it every evening. We now own two.”",
+            "name": "Marcus T.",
+            "rating": 4
+          }
+        }
+      },
+      "block_order": ["quote_sarah", "quote_daniel", "quote_marcus"]
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq_strength": {
+          "type": "question",
+          "settings": {
+            "question": "Is it actually strong enough?",
+            "answer": "<p>Yes — and this is the most common worry. The 26W brushless motor drives eight kneading nodes with enough torque to work through dense shoulder muscle. Start on the lower setting; most people never need the highest one.</p>"
+          }
+        },
+        "faq_shipping": {
+          "type": "question",
+          "settings": {
+            "question": "How fast is shipping?",
+            "answer": "<p>Orders ship within 1 business day from our U.S. warehouse and arrive in 2–5 business days. You'll get a tracking link the moment it leaves.</p>"
+          }
+        },
+        "faq_how": {
+          "type": "question",
+          "settings": {
+            "question": "How does it work?",
+            "answer": "<p>Slip it around your neck like a scarf and put your arms through the straps. Eight heated nodes rotate in a shiatsu kneading pattern — pull down gently on the straps to increase pressure, or relax them to ease off. One button, three intensity levels.</p>"
+          }
+        },
+        "faq_returns": {
+          "type": "question",
+          "settings": {
+            "question": "What if it's not for me?",
+            "answer": "<p>Use it for up to 30 nights. If it doesn't earn its place in your evening routine, send it back for a full refund — we cover return shipping in the U.S.</p>"
+          }
+        },
+        "faq_other": {
+          "type": "question",
+          "settings": {
+            "question": "Can I use it on other muscles?",
+            "answer": "<p>Absolutely. Customers use it on the lower back, calves, and thighs. The strap design works anywhere you can hold it against the muscle.</p>"
+          }
+        }
+      },
+      "block_order": ["faq_strength", "faq_shipping", "faq_how", "faq_returns", "faq_other"]
+    },
+    "sticky_cta": {
+      "type": "sticky-cta",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "trust_bar",
+    "problem_solution",
+    "showcase",
+    "testimonials",
+    "faq",
+    "sticky_cta"
+  ]
+}

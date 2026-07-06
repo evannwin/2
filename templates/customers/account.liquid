@@ -1,0 +1,29 @@
+<div class="container account-page account-page--wide">
+  <h1>My account</h1>
+  <p>{{ customer.name }} · <a href="{{ routes.account_logout_url }}">Log out</a></p>
+
+  <h2 style="margin-top: 3.2rem;">Order history</h2>
+  {%- paginate customer.orders by 20 -%}
+    {%- if customer.orders.size == 0 -%}
+      <p>You haven't placed any orders yet.</p>
+    {%- else -%}
+      <table>
+        <thead>
+          <tr><th>Order</th><th>Date</th><th>Status</th><th>Total</th></tr>
+        </thead>
+        <tbody>
+          {%- for order in customer.orders -%}
+            <tr>
+              <td><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
+              <td>{{ order.created_at | date: '%b %-d, %Y' }}</td>
+              <td>{{ order.financial_status_label }} / {{ order.fulfillment_status_label }}</td>
+              <td>{{ order.total_price | money }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    {%- endif -%}
+  {%- endpaginate -%}
+
+  <p style="margin-top: 2.4rem;"><a href="{{ routes.account_addresses_url }}">Manage addresses ({{ customer.addresses_count }})</a></p>
+</div>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_background }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {%- render 'meta-tags' -%}
+
+    {%- liquid
+      assign body_font = settings.type_body_font
+      assign heading_font = settings.type_heading_font
+      assign body_font_bold = body_font | font_modify: 'weight', 'bolder'
+    -%}
+
+    {%- comment -%}theme-check-disable AssetPreload{%- endcomment -%}
+    <link rel="preload" as="font" href="{{ body_font | font_url }}" type="font/woff2" crossorigin>
+    <link rel="preload" as="font" href="{{ heading_font | font_url }}" type="font/woff2" crossorigin>
+    {%- comment -%}theme-check-enable AssetPreload{%- endcomment -%}
+
+    {% style %}
+      {{ body_font | font_face: font_display: 'swap' }}
+      {{ body_font_bold | font_face: font_display: 'swap' }}
+      {{ heading_font | font_face: font_display: 'swap' }}
+
+      :root {
+        --font-body: {{ body_font.family }}, {{ body_font.fallback_families }};
+        --font-heading: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+        --color-bg: {{ settings.color_background }};
+        --color-surface: {{ settings.color_surface }};
+        --color-tint: {{ settings.color_tint }};
+        --color-text: {{ settings.color_text }};
+        --color-muted: {{ settings.color_text | color_mix: settings.color_background, 62 }};
+        --color-border: {{ settings.color_text | color_mix: settings.color_background, 14 }};
+        --color-accent: {{ settings.color_accent }};
+        --color-accent-dark: {{ settings.color_accent | color_darken: 8 }};
+        --color-accent-text: {{ settings.color_accent_text }};
+        --color-highlight: {{ settings.color_highlight }};
+        --color-highlight-tint: {{ settings.color_highlight | color_mix: settings.color_background, 14 }};
+        --color-star: {{ settings.color_star }};
+        --color-footer-bg: {{ settings.color_footer_bg }};
+        --color-footer-text: {{ settings.color_footer_text }};
+      }
+    {% endstyle %}
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'global.js' | asset_url }}" defer></script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="template-{{ template.name | handle }}">
+    <a class="skip-link" href="#MainContent">Skip to content</a>
+
+    {% section 'announcement-bar' %}
+    {% section 'header' %}
+
+    <main id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+    {% section 'cart-drawer' %}
+
+    <script>
+      window.theme = {
+        routes: {
+          cart: {{ routes.cart_url | json }},
+          cartAdd: {{ routes.cart_add_url | json }},
+          cartChange: {{ routes.cart_change_url | json }},
+          root: {{ routes.root_url | json }}
+        },
+        moneyFormat: {{ shop.money_format | json }}
+      };
+    </script>
+  </body>
+</html>

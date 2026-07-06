@@ -1,0 +1,111 @@
+<section class="section section--surface" id="faq">
+  <div class="container">
+    <div class="section-head">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="faq">
+      {%- for block in section.blocks -%}
+        <details {% if forloop.first and section.settings.open_first %}open{% endif %} {{ block.shopify_attributes }}>
+          <summary>
+            {{ block.settings.question }}
+            {% render 'icon', name: 'plus' %}
+          </summary>
+          <div class="faq__answer">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Before you ask"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Questions, answered honestly"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Open the first question by default",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Is it actually strong enough?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Yes — and this is the most common worry. The 26W brushless motor drives eight kneading nodes with enough torque to work through dense shoulder muscle. Start on the lower setting; most people never need the highest one.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        {
+          "type": "question",
+          "settings": {
+            "question": "Is it actually strong enough?",
+            "answer": "<p>Yes — and this is the most common worry. The 26W brushless motor drives eight kneading nodes with enough torque to work through dense shoulder muscle. Start on the lower setting; most people never need the highest one.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "How fast is shipping?",
+            "answer": "<p>Orders ship within 1 business day from our U.S. warehouse and arrive in 2–5 business days. You'll get a tracking link the moment it leaves.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "How does it work?",
+            "answer": "<p>Slip it around your neck like a scarf and put your arms through the straps. Eight heated nodes rotate in a shiatsu kneading pattern — pull down gently on the straps to increase pressure, or relax them to ease off. One button, three intensity levels.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "What if it's not for me?",
+            "answer": "<p>Use it for up to 30 nights. If it doesn't earn its place in your evening routine, send it back for a full refund — we cover return shipping in the U.S.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Can I use it on other muscles?",
+            "answer": "<p>Absolutely. Customers use it on the lower back, calves, and thighs. The strap design works anywhere you can hold it against the muscle.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

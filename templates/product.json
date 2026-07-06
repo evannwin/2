@@ -1,0 +1,120 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "point_kneading": {
+          "type": "point",
+          "settings": {
+            "text": "Shiatsu-style deep kneading with 8 heated nodes"
+          }
+        },
+        "point_motor": {
+          "type": "point",
+          "settings": {
+            "text": "26W brushless motor — strong, quiet, built to last"
+          }
+        },
+        "point_straps": {
+          "type": "point",
+          "settings": {
+            "text": "Wearable cross-straps let you control the pressure"
+          }
+        },
+        "point_trial": {
+          "type": "point",
+          "settings": {
+            "text": "30-night home trial with free returns"
+          }
+        },
+        "acc_how": {
+          "type": "accordion",
+          "settings": {
+            "icon": "hand",
+            "heading": "How it works",
+            "content": "<p>Drape it over your neck like a scarf and slide your arms through the straps. Eight nodes rotate in a shiatsu kneading pattern with gentle heat. Pull the straps down for deeper pressure, relax them to ease off. One button cycles through three intensity levels; it auto-stops after 15 minutes.</p>"
+          }
+        },
+        "acc_box": {
+          "type": "accordion",
+          "settings": {
+            "icon": "box",
+            "heading": "What's in the box",
+            "content": "<p>1 × Somora massager · 1 × power adapter · 1 × car adapter · 1 × quick-start guide · 1 × storage bag</p>"
+          }
+        },
+        "acc_specs": {
+          "type": "accordion",
+          "settings": {
+            "icon": "zap",
+            "heading": "Specs",
+            "content": "<p>Motor: 26W brushless · Nodes: 8 (bidirectional rotation) · Heat: 40–45°C · Intensity: 3 levels · Auto shut-off: 15 min · Weight: 1.5 kg · Materials: breathable mesh + PU leather · Power: 100–240V</p>"
+          }
+        },
+        "acc_shipping": {
+          "type": "accordion",
+          "settings": {
+            "icon": "truck",
+            "heading": "Shipping & returns",
+            "content": "<p>Ships within 1 business day from our U.S. warehouse; arrives in 2–5 business days with tracking. 30-night home trial — if it's not for you, return it for a full refund and we cover U.S. return shipping. 1-year warranty included.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "point_kneading",
+        "point_motor",
+        "point_straps",
+        "point_trial",
+        "acc_how",
+        "acc_box",
+        "acc_specs",
+        "acc_shipping"
+      ]
+    },
+    "reviews": {
+      "type": "product-reviews",
+      "blocks": {
+        "rev_jamie": {
+          "type": "review",
+          "settings": {}
+        },
+        "rev_priya": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Strong enough for real knots",
+            "body": "Read a lot of reviews worrying about strength. It has three levels and level two is already firmer than most spa chairs. My husband (rugby shoulders) uses level three.",
+            "name": "Priya S.",
+            "date": "1 month ago"
+          }
+        },
+        "rev_tom": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "title": "Great, wish the cord was longer",
+            "body": "Does exactly what it promises on neck and traps. Only wish is a slightly longer power cord so I could use it in bed. Otherwise excellent.",
+            "name": "Tom W.",
+            "date": "3 weeks ago"
+          }
+        },
+        "rev_alicia": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Bought a second one for my mom",
+            "body": "She stole mine over the holidays, so that tells you everything. The white one looks genuinely nice left out on the couch.",
+            "name": "Alicia G.",
+            "date": "2 months ago"
+          }
+        }
+      },
+      "block_order": ["rev_jamie", "rev_priya", "rev_tom", "rev_alicia"]
+    },
+    "upsell": {
+      "type": "product-upsell",
+      "settings": {}
+    }
+  },
+  "order": ["main", "reviews", "upsell"]
+}

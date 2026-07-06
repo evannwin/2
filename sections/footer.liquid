@@ -1,0 +1,115 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <span class="site-footer__logo">{{ shop.name }}</span>
+        <p>{{ section.settings.blurb }}</p>
+        {%- if section.settings.show_newsletter -%}
+          {%- form 'customer', class: 'newsletter' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            {%- if form.posted_successfully? -%}
+              <p class="form-success">Thanks for subscribing — welcome in.</p>
+            {%- else -%}
+              <h4>{{ section.settings.newsletter_heading }}</h4>
+              <div class="newsletter-form">
+                <input
+                  type="email"
+                  name="contact[email]"
+                  placeholder="Email address"
+                  required
+                  aria-label="Email address"
+                >
+                <button type="submit" class="btn btn--primary">Sign up</button>
+              </div>
+            {%- endif -%}
+          {%- endform -%}
+        {%- endif -%}
+      </div>
+
+      <div>
+        <h4>{{ section.settings.menu_heading }}</h4>
+        <ul>
+          {%- for link in section.settings.menu.links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <div>
+        <h4>{{ section.settings.secondary_menu_heading }}</h4>
+        <ul>
+          {%- for link in section.settings.secondary_menu.links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</span>
+      {%- if section.settings.show_payment_icons -%}
+        <div class="payment-icons" aria-label="Accepted payment methods">
+          {%- for type in shop.enabled_payment_types -%}
+            {{ type | payment_type_svg_tag }}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "blurb",
+      "label": "Brand blurb",
+      "default": "Deep-kneading relief for necks and shoulders that work too hard. Designed for daily use, built to last."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter signup",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Newsletter heading",
+      "default": "Get 10% off your first order"
+    },
+    {
+      "type": "text",
+      "id": "menu_heading",
+      "label": "First menu heading",
+      "default": "Shop"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "First menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "secondary_menu_heading",
+      "label": "Second menu heading",
+      "default": "Support"
+    },
+    {
+      "type": "link_list",
+      "id": "secondary_menu",
+      "label": "Second menu",
+      "default": "footer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

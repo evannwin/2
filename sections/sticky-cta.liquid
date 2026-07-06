@@ -1,0 +1,90 @@
+{%- comment -%}
+  Sticky buy bar for the homepage. Appears once the visitor scrolls
+  past the hero. Point the button at your product page.
+{%- endcomment -%}
+<div
+  class="sticky-bar{% if section.settings.mobile_only %} sticky-bar--mobile-only{% endif %}"
+  data-sticky-bar
+  data-sticky-watch="#HomeHero"
+>
+  <div class="sticky-bar__thumb">
+    {%- if section.settings.image != blank -%}
+      <img
+        src="{{ section.settings.image | image_url: width: 100 }}"
+        alt=""
+        loading="lazy"
+        width="44"
+        height="44"
+      >
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag }}
+    {%- endif -%}
+  </div>
+  <div class="sticky-bar__info">
+    <p class="sticky-bar__title">{{ section.settings.title }}</p>
+    <span class="sticky-bar__price">
+      {{ section.settings.price_text }}
+      {%- if section.settings.compare_text != blank -%}
+        <s>{{ section.settings.compare_text }}</s>
+      {%- endif -%}
+    </span>
+  </div>
+  <a class="btn btn--primary" href="{{ section.settings.link | default: '#' }}">{{ section.settings.button_label }}</a>
+</div>
+
+{% schema %}
+{
+  "name": "Sticky buy bar",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Appears at the bottom of the screen once the visitor scrolls past the hero."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Thumbnail"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Somora Neck & Shoulder Massager"
+    },
+    {
+      "type": "text",
+      "id": "price_text",
+      "label": "Price text",
+      "default": "$75.99"
+    },
+    {
+      "type": "text",
+      "id": "compare_text",
+      "label": "Compare-at price text"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Buy now"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Button link",
+      "info": "Point this at your product page."
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_only",
+      "label": "Show on mobile only",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky buy bar"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,16 @@
+<div class="container account-page">
+  <h1>Activate account</h1>
+  {%- form 'activate_customer_password' -%}
+    {{ form.errors | default_errors }}
+    <div class="field">
+      <label for="Password">Password</label>
+      <input type="password" name="customer[password]" id="Password" autocomplete="new-password" required>
+    </div>
+    <div class="field">
+      <label for="PasswordConfirm">Confirm password</label>
+      <input type="password" name="customer[password_confirmation]" id="PasswordConfirm" autocomplete="new-password" required>
+    </div>
+    <button type="submit" class="btn btn--primary btn--full">Activate account</button>
+    <button type="submit" name="decline" class="btn btn--secondary btn--full" style="margin-top: 1rem;">Decline invitation</button>
+  {%- endform -%}
+</div>

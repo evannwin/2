@@ -1,0 +1,40 @@
+{%- comment -%}
+  Product card for grids and upsells.
+  Usage: {% render 'product-card', card_product: product %}
+{%- endcomment -%}
+{%- if card_product and card_product != empty -%}
+  <a class="card" href="{{ card_product.url }}">
+    <div class="card__media">
+      {%- if card_product.compare_at_price > card_product.price -%}
+        {%- assign save_pct = card_product.compare_at_price | minus: card_product.price | times: 100.0 | divided_by: card_product.compare_at_price | round -%}
+        <span class="card__badge">Save {{ save_pct }}%</span>
+      {%- endif -%}
+      {%- if card_product.featured_media -%}
+        <img
+          src="{{ card_product.featured_media | image_url: width: 500 }}"
+          srcset="{{ card_product.featured_media | image_url: width: 300 }} 300w, {{ card_product.featured_media | image_url: width: 500 }} 500w, {{ card_product.featured_media | image_url: width: 800 }} 800w"
+          sizes="(min-width: 990px) 25vw, 50vw"
+          alt="{{ card_product.featured_media.alt | default: card_product.title | escape }}"
+          loading="lazy"
+          width="{{ card_product.featured_media.width }}"
+          height="{{ card_product.featured_media.height }}"
+        >
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag }}
+      {%- endif -%}
+    </div>
+    <h3 class="card__title">{{ card_product.title }}</h3>
+    <div class="card__price">
+      <span>{{ card_product.price | money }}</span>
+      {%- if card_product.compare_at_price > card_product.price -%}
+        <s class="compare">{{ card_product.compare_at_price | money }}</s>
+      {%- endif -%}
+    </div>
+  </a>
+{%- else -%}
+  <div class="card">
+    <div class="card__media">{{ 'product-1' | placeholder_svg_tag }}</div>
+    <h3 class="card__title">Example product</h3>
+    <div class="card__price"><span>{{ 7599 | money }}</span></div>
+  </div>
+{%- endif -%}

@@ -1,0 +1,16 @@
+{
+  "current": {
+    "color_background": "#FAF8F4",
+    "color_surface": "#FFFFFF",
+    "color_tint": "#EEF1EB",
+    "color_text": "#2E2A26",
+    "color_accent": "#3E5C50",
+    "color_accent_text": "#FFFFFF",
+    "color_highlight": "#B4552D",
+    "color_star": "#E8A33D",
+    "color_footer_bg": "#2E2A26",
+    "color_footer_text": "#EDEAE4",
+    "type_heading_font": "playfair_display_n5",
+    "type_body_font": "dm_sans_n4"
+  }
+}

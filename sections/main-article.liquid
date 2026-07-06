@@ -1,0 +1,23 @@
+<article class="container page-content page-content--rte">
+  <h1>{{ article.title }}</h1>
+  <p class="sub" style="color: var(--color-muted); margin-bottom: 2.4rem;">
+    {{ article.published_at | date: '%B %-d, %Y' }}
+  </p>
+  {%- if article.image -%}
+    <img
+      src="{{ article.image | image_url: width: 1200 }}"
+      alt="{{ article.title | escape }}"
+      width="{{ article.image.width }}"
+      height="{{ article.image.height }}"
+      style="border-radius: 1.2rem; margin-bottom: 2.4rem;"
+    >
+  {%- endif -%}
+  <div class="rte">{{ article.content }}</div>
+</article>
+
+{% schema %}
+{
+  "name": "Article",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,118 @@
+<section class="trust-bar" aria-label="Why shop with us">
+  <div class="container">
+    <div class="trust-bar__grid" style="--trust-cols: {{ section.blocks.size | at_least: 1 }};">
+      {%- for block in section.blocks -%}
+        <div class="trust-item" {{ block.shopify_attributes }}>
+          {%- if block.settings.show_stars -%}
+            {% render 'stars', rating: block.settings.star_rating %}
+          {%- else -%}
+            {% render 'icon', name: block.settings.icon %}
+          {%- endif -%}
+          <span class="trust-item__title">{{ block.settings.title }}</span>
+          {%- if block.settings.text != blank -%}
+            <span class="trust-item__text">{{ block.settings.text }}</span>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust bar",
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Trust item",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_stars",
+          "label": "Show star rating instead of icon",
+          "default": false
+        },
+        {
+          "type": "range",
+          "id": "star_rating",
+          "label": "Star rating",
+          "min": 3,
+          "max": 5,
+          "step": 0.1,
+          "default": 4.8
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "truck", "label": "Truck (shipping)" },
+            { "value": "return", "label": "Returns" },
+            { "value": "shield", "label": "Shield (guarantee)" },
+            { "value": "lock", "label": "Lock (secure)" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "zap", "label": "Power" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "box", "label": "Box" },
+            { "value": "check-circle", "label": "Checkmark" }
+          ],
+          "default": "truck"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Free U.S. shipping"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Subtext",
+          "default": "On every order"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust bar",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "show_stars": true,
+            "star_rating": 4.8,
+            "title": "Rated 4.8 / 5",
+            "text": "By 2,300+ customers"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Free U.S. shipping",
+            "text": "2–5 business days"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "return",
+            "title": "30-night trial",
+            "text": "Love it or return it"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "title": "1-year warranty",
+            "text": "Covered, no fine print"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

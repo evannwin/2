@@ -1,0 +1,151 @@
+<section class="section section--surface">
+  <div class="container">
+    <div class="section-head">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      <h2>{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="sub">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="ps__grid">
+      <div class="ps__media">
+        {%- if section.settings.image != blank -%}
+          <img
+            src="{{ section.settings.image | image_url: width: 800 }}"
+            srcset="
+              {{ section.settings.image | image_url: width: 400 }} 400w,
+              {{ section.settings.image | image_url: width: 800 }} 800w
+            "
+            sizes="(min-width: 900px) 45vw, 100vw"
+            alt="{{ section.settings.image.alt | escape }}"
+            loading="lazy"
+            width="{{ section.settings.image.width }}"
+            height="{{ section.settings.image.height }}"
+          >
+        {%- else -%}
+          {{ 'lifestyle-2' | placeholder_svg_tag }}
+        {%- endif -%}
+      </div>
+
+      <div class="ps__list">
+        {%- for block in section.blocks -%}
+          <div class="ps__item" {{ block.shopify_attributes }}>
+            <div class="ps__icon">{% render 'icon', name: block.settings.icon %}</div>
+            <div>
+              <h3>{{ block.settings.title }}</h3>
+              <p>{{ block.settings.text }}</p>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Problem / solution",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Sound familiar?"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your neck wasn't built for 9 hours at a desk"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Stiff neck by lunch, tight shoulders by five, tension headaches by bedtime. Somora breaks the cycle — without a $120 massage appointment."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Point",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "hand", "label": "Kneading hands" },
+            { "value": "zap", "label": "Power" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "neck", "label": "Neck / posture" },
+            { "value": "check-circle", "label": "Checkmark" }
+          ],
+          "default": "check-circle"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Real shiatsu kneading, not vibration"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Eight rotating nodes press and roll deep into the muscle — the same motion a massage therapist uses on stubborn knots."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Problem / solution",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "icon": "hand",
+            "title": "Real shiatsu kneading, not vibration",
+            "text": "Eight rotating nodes press and roll deep into the muscle — the same motion a massage therapist uses on stubborn knots."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "zap",
+            "title": "26W brushless motor with real grip",
+            "text": "Strong enough to work through tight trapezius muscle, quiet enough to use on the sofa while everyone else watches TV."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "neck",
+            "title": "Hands-free cross-strap design",
+            "text": "Slip your arms through the straps to control the pressure. Lean in for deeper work, ease off to unwind."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "clock",
+            "title": "15 minutes is all it takes",
+            "text": "Use it after work, before bed, or between meetings. Built-in heat helps muscles let go faster."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

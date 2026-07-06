@@ -1,0 +1,142 @@
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-head">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      <h2>{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="sub">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="testimonials__grid">
+      {%- for block in section.blocks -%}
+        <figure class="t-card" {{ block.shopify_attributes }}>
+          {%- if block.settings.photo != blank -%}
+            <div class="t-card__photo">
+              <img
+                src="{{ block.settings.photo | image_url: width: 600 }}"
+                srcset="
+                  {{ block.settings.photo | image_url: width: 400 }} 400w,
+                  {{ block.settings.photo | image_url: width: 600 }} 600w
+                "
+                sizes="(min-width: 990px) 30vw, 100vw"
+                alt="Customer photo from {{ block.settings.name | escape }}"
+                loading="lazy"
+                width="{{ block.settings.photo.width }}"
+                height="{{ block.settings.photo.height }}"
+              >
+            </div>
+          {%- endif -%}
+          {% render 'stars', rating: block.settings.rating %}
+          <blockquote class="t-card__quote">{{ block.settings.quote }}</blockquote>
+          <figcaption class="t-card__meta">
+            <span class="t-card__name">{{ block.settings.name }}</span>
+            {%- if block.settings.verified -%}
+              <span class="verified">{% render 'icon', name: 'check-circle' %} Verified buyer</span>
+            {%- endif -%}
+          </figcaption>
+        </figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "max_blocks": 9,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Customer stories"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Necks we've un-knotted"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "photo",
+          "label": "Customer photo",
+          "info": "Optional. Real customer photos convert far better than stock."
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Star rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "“I was skeptical it would be strong enough. It's stronger than the massage chair at the mall — my shoulders feel loose for the first time in years.”"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Sarah M."
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Show verified buyer badge",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "“I was skeptical it would be strong enough. It's stronger than the massage chair at the mall — my shoulders feel loose for the first time in years.”",
+            "name": "Sarah M.",
+            "rating": 5
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "“I work 10-hour days at a laptop. This is the only thing that touches the knot under my right shoulder blade. Worth every cent.”",
+            "name": "Daniel K.",
+            "rating": 5
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "“Bought it for my wife, ended up fighting her for it every evening. We now own two.”",
+            "name": "Marcus T.",
+            "rating": 4
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

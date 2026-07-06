@@ -1,0 +1,73 @@
+<header class="site-header">
+  <div class="container site-header__inner">
+    <details class="mobile-menu">
+      <summary class="header-icon-btn" aria-label="Menu">
+        {% render 'icon', name: 'menu' %}
+        {% render 'icon', name: 'close' %}
+      </summary>
+      <nav class="mobile-menu__panel" aria-label="Mobile navigation">
+        {%- for link in section.settings.menu.links -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- endfor -%}
+      </nav>
+    </details>
+
+    <a class="site-header__logo" href="{{ routes.root_url }}">
+      {%- if section.settings.logo != blank -%}
+        <img
+          src="{{ section.settings.logo | image_url: width: 300 }}"
+          srcset="{{ section.settings.logo | image_url: width: 150 }} 1x, {{ section.settings.logo | image_url: width: 300 }} 2x"
+          alt="{{ shop.name | escape }}"
+          width="{{ section.settings.logo.width }}"
+          height="{{ section.settings.logo.height }}"
+        >
+      {%- else -%}
+        {{ shop.name }}
+      {%- endif -%}
+    </a>
+
+    <nav class="site-nav" aria-label="Main navigation">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+
+    <div class="site-header__actions">
+      {%- if section.settings.show_search -%}
+        <a class="header-icon-btn" href="{{ routes.search_url }}" aria-label="Search">
+          {% render 'icon', name: 'search' %}
+        </a>
+      {%- endif -%}
+      <button class="header-icon-btn" type="button" data-cart-open aria-label="Cart">
+        {% render 'icon', name: 'cart' %}
+        <span class="cart-count" data-cart-count data-count="{{ cart.item_count }}">{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image",
+      "info": "Leave empty to show your store name as text."
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show search icon",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

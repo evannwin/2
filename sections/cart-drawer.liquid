@@ -1,0 +1,229 @@
+{%- liquid
+  assign threshold_cents = section.settings.free_shipping_threshold | times: 100
+  assign upsell_product = section.settings.upsell_product
+
+  # Hide the upsell if that product is already in the cart
+  assign show_upsell = false
+  if upsell_product != blank and upsell_product.available
+    assign show_upsell = true
+    for item in cart.items
+      if item.product_id == upsell_product.id
+        assign show_upsell = false
+      endif
+    endfor
+  endif
+-%}
+
+<div class="drawer-overlay" data-cart-close></div>
+
+<div id="CartDrawer" class="drawer" role="dialog" aria-modal="true" aria-label="Shopping cart" aria-hidden="true" data-drawer-cart-count="{{ cart.item_count }}">
+  <div class="drawer__header">
+    <h2>Your cart ({{ cart.item_count }})</h2>
+    <button class="drawer__close" type="button" data-cart-close aria-label="Close cart">
+      {% render 'icon', name: 'close' %}
+    </button>
+  </div>
+
+  {%- if threshold_cents > 0 and cart.item_count > 0 -%}
+    {%- liquid
+      assign remaining = threshold_cents | minus: cart.total_price
+      assign remaining_money = remaining | money
+      assign progress = cart.total_price | times: 100 | divided_by: threshold_cents
+      if progress > 100
+        assign progress = 100
+      endif
+    -%}
+    <div class="ship-bar{% if remaining <= 0 %} ship-bar--unlocked{% endif %}">
+      <p class="ship-bar__label">
+        {%- if remaining <= 0 -%}
+          <strong>{{ section.settings.free_shipping_unlocked_text }}</strong>
+        {%- else -%}
+          {{ section.settings.free_shipping_text | replace: '[amount]', remaining_money }}
+        {%- endif -%}
+      </p>
+      <div class="ship-bar__track" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="ship-bar__fill" style="width: {{ progress }}%"></div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="drawer__body">
+    {%- if cart.item_count == 0 -%}
+      <div class="drawer__empty">
+        {% render 'icon', name: 'cart' %}
+        <p>{{ section.settings.empty_text }}</p>
+        {%- if section.settings.empty_link != blank -%}
+          <a class="btn btn--primary" href="{{ section.settings.empty_link }}">{{ section.settings.empty_button_label }}</a>
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      {%- for item in cart.items -%}
+        <div class="cart-line">
+          <div class="cart-line__media">
+            {%- if item.image -%}
+              <img
+                src="{{ item.image | image_url: width: 150 }}"
+                alt="{{ item.image.alt | default: item.product.title | escape }}"
+                loading="lazy"
+                width="72"
+                height="72"
+              >
+            {%- endif -%}
+          </div>
+          <div class="cart-line__info">
+            <p class="cart-line__title"><a href="{{ item.url }}">{{ item.product.title }}</a></p>
+            {%- unless item.product.has_only_default_variant -%}
+              <p class="cart-line__variant">{{ item.variant.title }}</p>
+            {%- endunless -%}
+            <div class="cart-line__controls">
+              <div class="qty">
+                <button
+                  type="button"
+                  data-line-change
+                  data-line="{{ forloop.index }}"
+                  data-quantity="{{ item.quantity | minus: 1 }}"
+                  aria-label="Decrease quantity"
+                >{% render 'icon', name: 'minus' %}</button>
+                <input type="text" value="{{ item.quantity }}" readonly aria-label="Quantity">
+                <button
+                  type="button"
+                  data-line-change
+                  data-line="{{ forloop.index }}"
+                  data-quantity="{{ item.quantity | plus: 1 }}"
+                  aria-label="Increase quantity"
+                >{% render 'icon', name: 'plus' %}</button>
+              </div>
+              <div class="cart-line__price">
+                {%- if item.original_line_price > item.final_line_price -%}
+                  <span class="compare">{{ item.original_line_price | money }}</span>
+                {%- endif -%}
+                {{ item.final_line_price | money }}
+              </div>
+            </div>
+            <button
+              type="button"
+              class="cart-line__remove"
+              data-line-change
+              data-line="{{ forloop.index }}"
+              data-quantity="0"
+            >Remove</button>
+          </div>
+        </div>
+      {%- endfor -%}
+
+      {%- if show_upsell -%}
+        {%- assign upsell_variant = upsell_product.selected_or_first_available_variant -%}
+        <div class="drawer-upsell">
+          <div class="drawer-upsell__media">
+            {%- if upsell_product.featured_media -%}
+              <img
+                src="{{ upsell_product.featured_media | image_url: width: 120 }}"
+                alt="{{ upsell_product.title | escape }}"
+                loading="lazy"
+                width="56"
+                height="56"
+              >
+            {%- else -%}
+              {{ 'product-2' | placeholder_svg_tag }}
+            {%- endif -%}
+          </div>
+          <div class="drawer-upsell__info">
+            <p class="drawer-upsell__eyebrow">{{ section.settings.upsell_eyebrow }}</p>
+            <p class="drawer-upsell__title">{{ upsell_product.title }}</p>
+            <p class="drawer-upsell__price">
+              {{ upsell_variant.price | money }}
+              {%- if upsell_variant.compare_at_price > upsell_variant.price -%}
+                <s>{{ upsell_variant.compare_at_price | money }}</s>
+              {%- endif -%}
+            </p>
+          </div>
+          <button class="btn btn--secondary drawer-upsell__btn" type="button" data-quick-add="{{ upsell_variant.id }}">
+            Add
+          </button>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+
+  {%- if cart.item_count > 0 -%}
+    <div class="drawer__footer">
+      <div class="drawer__subtotal">
+        <span>Subtotal</span>
+        <span>{{ cart.total_price | money }}</span>
+      </div>
+      <p class="drawer__tax-note">Shipping and taxes calculated at checkout.</p>
+      <a href="{{ routes.cart_url }}/checkout" class="btn btn--primary btn--large btn--full">
+        {% render 'icon', name: 'lock' %} Checkout securely
+      </a>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Cart drawer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Free shipping progress bar"
+    },
+    {
+      "type": "number",
+      "id": "free_shipping_threshold",
+      "label": "Free shipping threshold",
+      "info": "In your store currency, e.g. 75. Set to 0 to hide the progress bar.",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "free_shipping_text",
+      "label": "Progress text",
+      "info": "Use [amount] where the remaining amount should appear.",
+      "default": "You're [amount] away from free shipping"
+    },
+    {
+      "type": "text",
+      "id": "free_shipping_unlocked_text",
+      "label": "Unlocked text",
+      "default": "You've unlocked free shipping 🎉"
+    },
+    {
+      "type": "header",
+      "content": "Cart upsell"
+    },
+    {
+      "type": "product",
+      "id": "upsell_product",
+      "label": "Upsell product",
+      "info": "Shown in the drawer when it isn't already in the cart. Pick your bundle or a second unit."
+    },
+    {
+      "type": "text",
+      "id": "upsell_eyebrow",
+      "label": "Upsell eyebrow text",
+      "default": "Most-added extra"
+    },
+    {
+      "type": "header",
+      "content": "Empty cart"
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "Empty cart message",
+      "default": "Your cart is empty — your neck disagrees with this decision."
+    },
+    {
+      "type": "url",
+      "id": "empty_link",
+      "label": "Empty cart button link"
+    },
+    {
+      "type": "text",
+      "id": "empty_button_label",
+      "label": "Empty cart button label",
+      "default": "Shop the massager"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,26 @@
+{%- comment -%}
+  Renders a 5-star row. Usage: {% render 'stars', rating: 4.7, size: 'lg' %}
+{%- endcomment -%}
+{%- liquid
+  assign rating_value = rating | default: 5 | times: 1.0
+  assign full_stars = rating_value | floor
+  assign remainder = rating_value | minus: full_stars
+  assign has_half = false
+  if remainder >= 0.25 and remainder < 0.75
+    assign has_half = true
+  elsif remainder >= 0.75
+    assign full_stars = full_stars | plus: 1
+  endif
+  assign half_index = full_stars | plus: 1
+-%}
+<span class="stars{% if size == 'lg' %} stars--lg{% endif %}" role="img" aria-label="{{ rating_value }} out of 5 stars">
+  {%- for i in (1..5) -%}
+    {%- if i <= full_stars -%}
+      {% render 'icon', name: 'star' %}
+    {%- elsif has_half and i == half_index -%}
+      {% render 'icon', name: 'star-half' %}
+    {%- else -%}
+      <span class="star-empty">{% render 'icon', name: 'star' %}</span>
+    {%- endif -%}
+  {%- endfor -%}
+</span>
